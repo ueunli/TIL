@@ -10,21 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/typography.css">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=PT+Serif">
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-    <script src="https://giscus.app/client.js"
-        data-repo="ueunli/TIL"
-        data-repo-id="R_kgDOHiav8A"
-        data-category="General"
-        data-category-id="DIC_kwDOHiav8M4CPzBs"
-        data-mapping="url"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="ko"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-    </script>
+
     <script type="module">
       import { React, ReactDOM } from 'https://unpkg.com/es-react@16.12.0/dev';
       import htm from 'https://unpkg.com/htm?module'
@@ -124,21 +110,6 @@
                     className="body"
                     dangerouslySetInnerHTML="${{ __html: marked(body).replace(/<pre>/g, '<pre class="prettyprint">')}}"
                   />
-                  <giscus-widget
-                    id="comments"
-                    repo="giscus/giscus"
-                    repoid="MDEwOlJlcG9zaXRvcnkzNTE5NTgwNTM="
-                    category="General"
-                    categoryid="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyNzk2NTc1"
-                    mapping="specific"
-                    term="Welcome to giscus!"
-                    reactionsenabled="1"
-                    emitmetadata="0"
-                    inputposition="top"
-                    theme="light"
-                    lang="en"
-                    loading="lazy"
-                  ></giscus-widget>
                 </div>
               `)}
           </div>
@@ -152,6 +123,22 @@
         `,
         document.querySelector('#issuance')
       )
+    </script>
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="ueunli/TIL"
+        data-repo-id="R_kgDOHiav8A"
+        data-category="General"
+        data-category-id="DIC_kwDOHiav8M4CPzBs"
+        data-mapping="url"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="ko"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
     </script>
     
   </head>
