@@ -21,7 +21,7 @@ li {
 
 pre {
   padding: 8px !important;
-  border: 1px solid #efefef !important;
+  border: 1px solid #dbdbdb !important;
   border-radius: 4px !important;
   background: transparent !important;
 }
@@ -29,7 +29,7 @@ pre {
 code {
   padding: 4px;
   border-radius: 4px;
-  background: #fafafa;
+  background: #efeaf8;   
 }
 
 pre>code {
@@ -42,6 +42,12 @@ pre>code {
 }
 .header>.title {
   margin-right: 20px;
+}
+.header>.cheerUp {
+  text-align: right;
+  float: right;
+  clear: right;
+  margin-top: 1em;
 }
 
 .posts {}
@@ -57,12 +63,11 @@ pre>code {
 }
 
 .post>.meta {
-  margin-left: 8px;
-  margin-bottom: 10px;
+  margin: 3px 1px 10px;
 }
 
 .post>.categories {
-  margin-left: 8px;
+  margin-top: 5px;
 }
 .post>.categories>span {
   vertical-align: top;
@@ -71,14 +76,14 @@ pre>code {
 .post>.body {
   margin-bottom: 20px;
   padding-top: 10px;
-  border-top: 1px solid #fafafa;
-  border-bottom: 1px solid #fafafa;
+  border-top: 3px solid #98b5a2;
+  border-bottom: 3px solid #98b5a2;
 }
 .post>.body>*:last-child {
   margin-bottom: 1rem;
 }
 
-.comments {}
+/* .comments {}
 .comments *:first-child { margin-top: 0 !important; }
 .comments *:last-child { margin-bottom: 0 !important; }
 .comments>.comment {
@@ -94,5 +99,30 @@ pre>code {
 }
 .comments>.comment>.body>:first-child {
   margin-top: 0;
+  margin-bottom: 0;
+} */
+
+.post>.comments {
+  padding-top: 10px;
+}
+.post>.comments>.comment {
+  margin-bottom: 20px;
+}
+.post>.comments>.comment>.date {
+  text-align: left;
+  float: left;
+  clear: left;
+  font-size: 1em;
+  color: #809989;
+}
+.post>.comments>.comment>.body {
+  padding-bottom: 8px;
+  margin-top: 4px;
+}
+.post>.comments>.comment>.body>:first-child {
+  color: #000;
+  font-weight: bold;
+}
+.post>.comments>.comment>.body>:last-child {
   margin-bottom: 0;
 }

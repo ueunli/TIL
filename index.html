@@ -2,13 +2,13 @@
 
 <html>
   <head>
-    <title>Junely TIL</title>
+    <title>유넬리 TIL</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" href="css/structure.css">
     <link rel="stylesheet" type="text/css" href="css/typography.css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=PT+Serif">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Noto+Sans+KR">
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 
     <script type="module">
@@ -24,11 +24,59 @@
         return html`
           <div className="header">
             <h1 className="title">
-              <a href="index.html"><strong>Junely TIL</strong></a>
+              <a href="index.html"><strong>유넬리.Dev</strong></a>
             </h1>
             <p className="description">
-              <strong>T</strong>oday <strong>I</strong> <strong>L</strong>earned: 
+              <strong>TIL</strong>Archive: 
             </p>
+            <div className="cheerUp">
+              <a className="github-button" href="https://github.com/ueunli/til" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Cheer me Up!">Star</a>
+              <br/>
+            </div>
+          </div>
+        `;
+      }
+
+      const Comments = (props) => {
+        const [comments, setComments] = React.useState();
+        const {
+          search,
+        } = window.location;
+        React.useEffect(() => {
+          async function fetchComments() {
+            const issue_number = search.slice(1);
+            if (issue_number && !comments) {
+              const { url, ...options } = endpoint('GET /repos/:owner/:repo/issues/:issue_number/comments', {
+                owner: 'ueunli',
+                repo: 'TIL',
+                issue_number,
+              });
+              console.log(options);
+              const res = await fetch(url, options);
+              setComments(await res.json());
+            }
+          }
+          fetchComments();
+        }, [search, comments]);
+        return html`
+          <div id="comments" className="comments">
+            <h1>Today I Learned</h1>
+            ${(comments || [])
+              .map(({
+                id,
+                created_at,
+                body,
+              }) => html`
+                <div key=${id} className="comment">
+                  <span className="date">
+                    ${new Date(created_at).toLocaleString()}:
+                  </span>
+                  <div
+                    className="body"
+                    dangerouslySetInnerHTML="${{ __html: marked(body)}}"
+                  />
+                </div>
+              `)}
           </div>
         `;
       }
@@ -77,12 +125,11 @@
                 >
                   <h1 className="title">
                     <a href="?${number}">
-                      ${title}
+                      ${new Date(created_at).toLocaleDateString('ko-KR', {weekday: 'long',})}
                     </a>
                   </h1>
                   ${labels.length > 0 && html`
                     <div className="categories">
-                      in
                       ${labels.map((label) => html`
                         <span
                           key="${label.id}"
@@ -91,17 +138,27 @@
                           ${label.name}
                         </span>
                       `)}
+                      of
                     </div>
                   `}
                   <div className="meta">
-                    <span>by </span>
-                    <a href="${user.html_url}">${user.login}</a>
-                    <span>, </span>
-                    <span>${new Date(created_at).toLocaleDateString()} </span>
+                    <span>${new Date(created_at).toLocaleDateString('ko-KR')} </span>
+                    ${labels.length > 0 && html`
+                      <span>의 </span>
+                      ${labels.map((label) => html`
+                        <span
+                          key="${label.id}"
+                          style=${{ color: '#' + label.color, padding: '0 .25em' }}
+                        >
+                          ${label.name}
+                        </span>
+                      `)}
+                      <span>　|　</span>
+                  `}
                     ${comments
                       ? html`
                         <a href="?${number}">
-                          ${comments} comment(s)
+                          ${comments} Card(s)
                         </a>
                       `
                       : null
@@ -111,11 +168,12 @@
                     className="body"
                     dangerouslySetInnerHTML="${{ __html: marked(body).replace(/<pre>/g, '<pre class="prettyprint">')}}"
                   />
+                  <${Comments} />
                   <giscus-widget
                     id="comments"
                     repo="ueunli/TIL"
                     category="General"
-                    mapping="specific"
+                    mapping="title"
                     term="Welcome to TILs!"
                     reactionsenabled="1"
                     emitmetadata="0"
