@@ -125,7 +125,7 @@
                   <div className="meta">
                     <span style=${{ color: '#' + label.color, padding: '0 .25em' }}> ${new Date(created_at).toLocaleDateString('ko-KR', {weekday: 'long'})} </span>
                     <span>　|　</span>
-                    ${number} 번째 TIL
+                    <span>${number} 번째 TIL</span>
                     <span>　|　</span>
                     ${comments
                       ? html`
