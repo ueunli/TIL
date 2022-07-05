@@ -55,7 +55,6 @@
         }, [search, comments]);
         return html`
           <div id="comments" className="comments">
-            <h1>Today I Learned</h1>
             ${(comments || [])
               .map(({
                 id,
@@ -118,11 +117,25 @@
                   id={${number}}
                   key={${number}}
                 >
-                  <h1 className="title">
+                  <h2 className="title">
                     <a href="?${number}">
-                      ${new Date(created_at).toLocaleDateString('ko-KR', {weekday: 'long',})}
+                      ${new Date(created_at).toLocaleDateString('ko-KR', {year: 'numeric', month: 'long', day: 'numeric'})}
                     </a>
-                  </h1>
+                  </h2>
+                  <div className="meta">
+                    <span style=${{ color: '#' + label.color, padding: '0 .25em' }}> ${new Date(created_at).toLocaleDateString('ko-KR', {weekday: 'long'})} </span>
+                    <span>　|　</span>
+                    ${number} 번째 TIL
+                    <span>　|　</span>
+                    ${comments
+                      ? html`
+                        <a href="?${number}">
+                          ${comments} Card(s)
+                        </a>
+                      `
+                      : null
+                    }
+                  </div>
                   ${labels.length > 0 && html`
                     <div className="categories">
                       ${labels.map((label) => html`
@@ -133,32 +146,11 @@
                           ${label.name}
                         </span>
                       `)}
-                      of
+                      <span>　|　</span>
+                      ${title}
+                      <span>　|　</span>
                     </div>
                   `}
-                  <div className="meta">
-                    <span>${new Date(created_at).toLocaleDateString('ko-KR')} </span>
-                    ${labels.length > 0 && html`
-                      <span>의 </span>
-                      ${labels.map((label) => html`
-                        <span
-                          key="${label.id}"
-                          style=${{ color: '#' + label.color, padding: '0 .25em' }}
-                        >
-                          ${label.name}
-                        </span>
-                      `)}
-                      <span>　|　</span>
-                  `}
-                    ${comments
-                      ? html`
-                        <a href="?${number}">
-                          ${comments} Card(s)
-                        </a>
-                      `
-                      : null
-                    }
-                  </div>
                   <div
                     className="body"
                     dangerouslySetInnerHTML="${{ __html: marked(body).replace(/<pre>/g, '<pre class="prettyprint">')}}"
