@@ -16,7 +16,6 @@
       import htm from 'https://unpkg.com/htm?module'
       import { endpoint } from 'https://cdn.skypack.dev/@octokit/endpoint';
       import marked from 'https://unpkg.com/marked@0.8.0/lib/marked.esm.js';
-      import giscus from 'https://cdn.skypack.dev/giscus';
 
       const html = htm.bind(React.createElement)
 
@@ -27,12 +26,8 @@
               <a href="index.html"><strong>유넬리.Dev</strong></a>
             </h1>
             <p className="description">
-              <strong>TIL</strong>Archive: 
+              <strong>TIL</strong> Archive: 
             </p>
-            <div className="cheerUp">
-              <a className="github-button" href="https://github.com/ueunli/til" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Cheer me Up!">Star</a>
-              <br/>
-            </div>
           </div>
         `;
       }
@@ -169,19 +164,6 @@
                     dangerouslySetInnerHTML="${{ __html: marked(body).replace(/<pre>/g, '<pre class="prettyprint">')}}"
                   />
                   <${Comments} />
-                  <giscus-widget
-                    id="comments"
-                    repo="ueunli/TIL"
-                    category="General"
-                    mapping="title"
-                    term="Welcome to TILs!"
-                    reactionsenabled="1"
-                    emitmetadata="0"
-                    inputposition="top"
-                    theme="light"
-                    lang="ko"
-                    loading="lazy"
-                  ></giscus-widget>
                 </div>
               `)}
           </div>
