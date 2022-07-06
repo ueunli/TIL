@@ -76,12 +76,20 @@
                 >
                   <h1 className="title">
                     <a href="?${number}">
-                      ${title}
-                    </a>
+                      ${new Date(created_at).toLocaleDateString('ko-KR', {year: 'numeric', month: 'long', day: 'numeric'})}
+                      ${comments
+                      ? html`
+                        <a href="?${number}">
+                          (${comments})
+                        </a>
+                      `
+                      : null
+                    }
+                      </a>
                   </h1>
                   ${labels.length > 0 && html`
                     <div className="categories">
-                      in
+                      <span>${new Date(created_at).toLocaleDateString('ko-KR', {weekday: 'long'})} | </span>
                       ${labels.map((label) => html`
                         <span
                           key="${label.id}"
@@ -90,6 +98,7 @@
                           ${label.name}
                         </span>
                       `)}
+                      ${title}
                     </div>
                   `}
                   <div className="meta">
