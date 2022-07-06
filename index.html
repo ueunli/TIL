@@ -32,49 +32,6 @@
         `;
       }
 
-      const Comments = (props) => {
-        const [comments, setComments] = React.useState();
-        const {
-          search,
-        } = window.location;
-        React.useEffect(() => {
-          async function fetchComments() {
-            const issue_number = search.slice(1);
-            if (issue_number && !comments) {
-              const { url, ...options } = endpoint('GET /repos/:owner/:repo/issues/:issue_number/comments', {
-                owner: 'ueunli',
-                repo: 'TIL',
-                issue_number,
-              });
-              console.log(options);
-              const res = await fetch(url, options);
-              setComments(await res.json());
-            }
-          }
-          fetchComments();
-        }, [search, comments]);
-        return html`
-          <div id="comments" className="comments">
-            ${(comments || [])
-              .map(({
-                id,
-                created_at,
-                body,
-              }) => html`
-                <div key=${id} className="comment">
-                  <span className="date">
-                    ${new Date(created_at).toLocaleString()}:
-                  </span>
-                  <div
-                    className="body"
-                    dangerouslySetInnerHTML="${{ __html: marked(body)}}"
-                  />
-                </div>
-              `)}
-          </div>
-        `;
-      }
-
       const Posts = (props) => {
         const [issues, setIssues] = React.useState();
 
@@ -84,7 +41,7 @@
               const { url, ...options } = endpoint("GET /repos/:owner/:repo/issues", {
                 owner: "ueunli",
                 repo: "TIL",
-                //auth: 'x'
+                auth: 'x'
               });
               const res = await fetch(url, options);
               setIssues(await res.json());
@@ -117,13 +74,14 @@
                   id={${number}}
                   key={${number}}
                 >
-                  <h3 className="title">
+                  <h1 className="title">
                     <a href="?${number}">
-                      ${new Date(created_at).toLocaleDateString('ko-KR', {year: 'numeric', month: 'long', day: 'numeric'})}
+                      ${title}
                     </a>
-                  </h3>
+                  </h1>
                   ${labels.length > 0 && html`
                     <div className="categories">
+                      in
                       ${labels.map((label) => html`
                         <span
                           key="${label.id}"
@@ -132,37 +90,26 @@
                           ${label.name}
                         </span>
                       `)}
-                      of
                     </div>
                   `}
                   <div className="meta">
-                    <span style=${{ color: '#' + label.color, padding: '0 .25em' }}> ${new Date(created_at).toLocaleDateString('ko-KR', {weekday: 'long'})} </span>
-                    ${labels.length > 0 && html`
-                      ${labels.map((label) => html`
-                        <span
-                          key="created_at"
-                          style=${{ color: '#' + label.color, padding: '0 .25em' }}
-                        >
-                        ${new Date(created_at).toLocaleDateString('ko-KR', {weekday: 'long'})}
-                        </span>
-                        <span>　|　</span>
-                      `)}
-                  `}
+                    <span>by </span>
+                    <a href="${user.html_url}">${user.login}</a>
+                    <span>, </span>
+                    <span>${new Date(created_at).toLocaleDateString()} </span>
                     ${comments
                       ? html`
-                        <a href="?${number}#comments">
-                          ＋${comments}
+                        <a href="?${number}">
+                          ${comments} comment(s)
                         </a>
                       `
                       : null
                     }
                   </div>
-                  ${title}
                   <div
                     className="body"
                     dangerouslySetInnerHTML="${{ __html: marked(body).replace(/<pre>/g, '<pre class="prettyprint">')}}"
                   />
-                  <${Comments} />
                 </div>
               `)}
           </div>
@@ -176,7 +123,7 @@
         `,
         document.querySelector('#issuance')
       )
-    </script>    
+    </script>
   </head>
   <body>
     <div id="issuance" />
