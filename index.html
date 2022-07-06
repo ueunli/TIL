@@ -122,20 +122,6 @@
                       ${new Date(created_at).toLocaleDateString('ko-KR', {year: 'numeric', month: 'long', day: 'numeric'})}
                     </a>
                   </h2>
-                  <div className="meta">
-                    <span style=${{ color: '#' + label.color, padding: '0 .25em' }}> ${new Date(created_at).toLocaleDateString('ko-KR', {weekday: 'long'})} </span>
-                    <span>　|　</span>
-                    <span>${number} 번째 TIL</span>
-                    <span>　|　</span>
-                    ${comments
-                      ? html`
-                        <a href="?${number}">
-                          ${comments} Card(s)
-                        </a>
-                      `
-                      : null
-                    }
-                  </div>
                   ${labels.length > 0 && html`
                     <div className="categories">
                       ${labels.map((label) => html`
@@ -146,11 +132,32 @@
                           ${label.name}
                         </span>
                       `)}
-                      <span>　|　</span>
-                      ${title}
-                      <span>　|　</span>
+                      of
                     </div>
                   `}
+                  <div className="meta">
+                    <span>${new Date(created_at).toLocaleDateString('ko-KR', {weekday: 'long'})} </span>
+                    ${labels.length > 0 && html`
+                      <span>의 </span>
+                      ${labels.map((label) => html`
+                        <span
+                          key="created_at"
+                          style=${{ color: '#' + label.color, padding: '0 .25em' }}
+                        >
+                        ${new Date(created_at).toLocaleDateString('ko-KR', {weekday: 'long'})}
+                        </span>
+                      `)}
+                      <span>　|　</span>
+                  `}
+                    ${comments
+                      ? html`
+                        <a href="?${number}">
+                          ${comments} Card(s)
+                        </a>
+                      `
+                      : null
+                    }
+                  </div>
                   <div
                     className="body"
                     dangerouslySetInnerHTML="${{ __html: marked(body).replace(/<pre>/g, '<pre class="prettyprint">')}}"
